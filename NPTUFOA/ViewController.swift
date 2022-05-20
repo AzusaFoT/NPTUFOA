@@ -8,7 +8,19 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    struct APIData: Codable {
+        var name: String
+        var meals: String
+        var studentNum: String
+        var time: String
+        var serialNum: Int
+    }
+    let HTTP_METHOD_GET = "GET"
+    let CONTENT_TYPE = "application/json"
+    let HTTP_HEADER_FIELD = "Content-Type"
+        
+    var aPIDataArray = [APIData]()
+    
     @IBOutlet weak var studentNumBox: UITextField!
     @IBAction func loginButton(_ sender: UIButton) {
         if studentNumBox.text != "" {
@@ -29,6 +41,44 @@ class ViewController: UIViewController {
         alertController.addAction(alertAction)
         self.present(alertController,animated: true,completion: nil)
     }
+    
+    func getSheetDB(){
+        //let urlSheetDB = "https://docs.google.com/spreadsheets/d/1mo-a7TcJkJ7B-77jR5aBqLu1lBiY38RRHeOCG5chHCs/edit#gid=1754583349"
+        let urlGAS = "https://script.google.com/macros/s/AKfycbwmGFdnuE98e0AVg-wnULmTS0vebOs6SYT33JoWZsR9t3mQmJqrn0qShu8t-V23Jq3_Kg/exec"
+        let apiUrl = urlGAS
+        
+        if let urlApi = URL(string: apiUrl){
+            var urlRequest = URLRequest(url: urlApi)
+                        urlRequest.httpMethod = HTTP_METHOD_GET
+                        urlRequest.setValue(CONTENT_TYPE, forHTTPHeaderField: HTTP_HEADER_FIELD)
+
+                        URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
+                            if error == nil {
+                                if let data = data,
+                                   let aPIDataArray = try? JSONDecoder().decode([APIData].self, from: data) {
+                                    self.aPIDataArray = aPIDataArray
+                                    DispatchQueue.main.async {
+                                        print("reload?")
+                                    }
+                                }
+                            } else {
+                                print("====== getDataFromSheetDB error ======")
+                                print("debugDescription: \(error.debugDescription)")
+                                print("====== getDataFromSheetDB error =======")
+                                //self.aPIDataArray = self.getDataFromArray()
+                                
+                                DispatchQueue.main.async {
+                                    print("reload?")
+                                }
+                            }
+                        }.resume()
+            
+        }
+        
+    }
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
