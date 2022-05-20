@@ -160,12 +160,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="BDQ-tq-KSX"/>
                     <connections>
-                        <outlet property="webView" destination="ssL-Lc-V34" id="2sg-ZU-rRx"/>
+                        <outlet property="webView" destination="ssL-Lc-V34" id="HLY-Ox-C1Z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jLO-f1-fOX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="901" y="104"/>
+            <point key="canvasLocation" x="900.00000000000011" y="103.53260869565219"/>
         </scene>
     </scenes>
     <resources>
