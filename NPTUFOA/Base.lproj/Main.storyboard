@@ -24,6 +24,7 @@
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="請輸入學號" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bwe-8f-h5E">
                                                 <rect key="frame" x="0.0" y="0.0" width="276" height="50.666666666666664"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="35"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
@@ -35,7 +36,8 @@
                                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="87N-yM-q4W" kind="show" id="RoP-QT-bcA"/>
+                                                    <action selector="loginButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WKA-D2-yfi"/>
+                                                    <segue destination="87N-yM-q4W" kind="show" identifier="websiteSegue" id="RoP-QT-bcA"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -92,6 +94,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="aii-bK-ci1"/>
+                    <connections>
+                        <outlet property="studentNumBox" destination="Bwe-8f-h5E" id="beo-Bi-Xgb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

@@ -11,7 +11,7 @@ import WebKit
 class webViewController: UIViewController {
 
     @IBAction func backButton(_ sender: UIButton) {
-        
+        self.dismiss(animated: true, completion: nil)
     }
     @IBOutlet weak var webView: WKWebView!
     override func viewDidLoad() {
