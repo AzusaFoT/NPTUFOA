@@ -8,6 +8,8 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    var studentID : String = ""
     struct APIData: Codable {
         var name: String
         var meals: String
@@ -15,29 +17,58 @@ class ViewController: UIViewController {
         var time: String
         var serialNum: Int
     }
+    
+    //titleView
+    @IBOutlet weak var bTitle: UILabel!
+    @IBOutlet weak var sTitle: UILabel!
+    
+    
+    //numView
     @IBOutlet weak var numView: UIView!
+    @IBOutlet weak var serialNumL: UILabel!
+    @IBAction func logoutButton(_ sender: UIButton) {
+        numView.alpha = 0
+        self.bTitle.text = "線上點餐整合服務"
+        self.sTitle.text = "學生登記系統"
+    }
+    
     let HTTP_METHOD_GET = "GET"
     let CONTENT_TYPE = "application/json"
     let HTTP_HEADER_FIELD = "Content-Type"
         
     var aPIDataArray = [APIData]()
     
+    //loginView
     @IBOutlet weak var studentNumBox: UITextField!
+    // login button
     @IBAction func loginButton(_ sender: UIButton) {
         if studentNumBox.text != "" {
+            self.studentID = studentNumBox.text!
             self.performSegue(withIdentifier: "websiteSegue", sender: self)
-            numView.alpha = 1
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                //延遲一秒
+                self.numView.alpha = 1
+                self.serialNumL.text = self.searchSerialNum(sNum: self.studentNumBox.text!)
+                self.bTitle.text = "以下為取餐流水編號"
+                self.sTitle.text = self.studentID
+            }
+            
+            
         }
         else{
             displayAlert(title: "請輸入學號", message: "未輸入學號造成的錯誤")
         }
     }
     
-    func loginVerify(sNum: String){
+    func searchSerialNum(sNum: String) -> String {
         //sNum = studentNum
+        //主要是用來爬json的資料把
+        var serialNum : String = "⍩"
         
+        return serialNum
     }
     
+    // 警告視窗
     func displayAlert(title: String,message: String){
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
