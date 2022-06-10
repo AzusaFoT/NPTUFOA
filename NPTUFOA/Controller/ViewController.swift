@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     }
     
     
-    
+    let logoImage = UIImageView()
     
     let HTTP_METHOD_GET = "GET"
     let CONTENT_TYPE = "application/json"
@@ -29,6 +29,7 @@ class ViewController: UIViewController {
     var aPIDataArray = [APIData]()
     
     //titleView
+    @IBOutlet weak var titleView: UIView!
     @IBOutlet weak var bTitle: UILabel!
     @IBOutlet weak var sTitle: UILabel!
 
@@ -42,6 +43,7 @@ class ViewController: UIViewController {
     }
     
     //loginView
+    @IBOutlet weak var loginView: UIView!
     @IBOutlet weak var studentNumBox: UITextField!
     // login button
     @IBAction func loginButton(_ sender: UIButton) {
@@ -121,14 +123,41 @@ class ViewController: UIViewController {
     
     
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         numView.alpha = 0
+        titleView.alpha = 0
+        loginView.alpha = 0
         
+        view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        logoImage.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1)
+        logoImage.image = UIImage(named: "ICON")
+        logoImage.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        logoImage.center = view.center
+        
+        view.addSubview(logoImage)
        
     }
+    override func viewDidAppear(_ animated: Bool) {
+        UIView.animate(withDuration: 1) {
+            self.logoImage.frame = CGRect(x: 0, y: 0, width: 120, height: 120)
+            self.logoImage.center = self.view.center
+        } completion: { (aniFin) in
+            UIView.animate(withDuration: 0.5) {
+                self.logoImage.frame = CGRect(x: 0, y: 0, width: 5000, height: 5000)
+                self.logoImage.center = self.view.center
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3) {
+                    self.titleView.alpha = 1
+                    self.loginView.alpha = 1
+                }
+                self.logoImage.alpha = 0
+            }
+        }
+        
 
+    }
 
 }
 
