@@ -84,9 +84,15 @@
                                     <constraint firstItem="iL8-7k-ADL" firstAttribute="centerY" secondItem="3MQ-9k-GjU" secondAttribute="centerY" id="E7p-kL-qCs"/>
                                 </constraints>
                             </view>
-                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GiA-JU-2Hp">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GiA-JU-2Hp">
                                 <rect key="frame" x="0.0" y="245.33333333333334" width="414" height="490.66666666666663"/>
                                 <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="再次點餐請按右方LOGO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XrQ-og-gM9">
+                                        <rect key="frame" x="0.0" y="437.33333333333326" width="414" height="23.333333333333314"/>
+                                        <fontDescription key="fontDescription" name="Cubic_11" family="Cubic 11" pointSize="20"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="500" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sBO-6Z-tQs">
                                         <rect key="frame" x="0.0" y="49.999999999999986" width="414" height="249.66666666666663"/>
                                         <fontDescription key="fontDescription" name="Cubic_11" family="Cubic 11" pointSize="214"/>
@@ -104,9 +110,12 @@
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="Xd0-rL-ncY" firstAttribute="width" secondItem="GiA-JU-2Hp" secondAttribute="width" multiplier="1:6" id="3Cp-c4-uow"/>
+                                    <constraint firstAttribute="bottom" secondItem="XrQ-og-gM9" secondAttribute="bottom" constant="30" id="3k7-d0-niK"/>
+                                    <constraint firstItem="XrQ-og-gM9" firstAttribute="leading" secondItem="GiA-JU-2Hp" secondAttribute="leading" id="43J-aY-9Si"/>
                                     <constraint firstItem="Xd0-rL-ncY" firstAttribute="height" secondItem="GiA-JU-2Hp" secondAttribute="height" multiplier="1:7" id="JSf-YP-7c1"/>
                                     <constraint firstItem="sBO-6Z-tQs" firstAttribute="top" secondItem="GiA-JU-2Hp" secondAttribute="top" constant="50" id="SNe-73-TGD"/>
                                     <constraint firstAttribute="trailing" secondItem="Xd0-rL-ncY" secondAttribute="trailing" id="SwJ-Ol-4mi"/>
+                                    <constraint firstAttribute="trailing" secondItem="XrQ-og-gM9" secondAttribute="trailing" id="X78-3B-4gu"/>
                                     <constraint firstAttribute="bottom" secondItem="Xd0-rL-ncY" secondAttribute="bottom" id="cHL-ls-x3j"/>
                                     <constraint firstItem="sBO-6Z-tQs" firstAttribute="leading" secondItem="GiA-JU-2Hp" secondAttribute="leading" id="hQa-y1-V10"/>
                                     <constraint firstAttribute="trailing" secondItem="sBO-6Z-tQs" secondAttribute="trailing" id="weA-c0-lKh"/>
@@ -152,12 +161,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ssL-Lc-V34">
+                            <wkWebView contentMode="redraw" semanticContentAttribute="playback" translatesAutoresizingMaskIntoConstraints="NO" id="ssL-Lc-V34">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="644.33333333333337"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                                    <wkPreferences key="preferences"/>
+                                    <wkPreferences key="preferences" minimumFontSize="50"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vyR-xD-4YN" userLabel="backView">
