@@ -9,16 +9,22 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    struct APIData: Codable {
-        var name: String
-        var meals: String
-        var studentNum: String
-        var time: String
-        var serialNum: Int
-        var maalsok : String
-        var takeok : String
+    struct SearchResponse: Codable {
+        let resultCount: Int?
+        let results: [APIData]
     }
+    var item: [APIData] = []
     
+    struct APIData: Codable {
+        var name: String?
+        var meals: String?
+        var studentNum: String?
+        var time: String?
+        var serialNum: Int?
+        var maalsok : String?
+        var takeok : String?
+    }
+    var str1:String = ""
     
     let logoImage = UIImageView()
     
@@ -26,7 +32,10 @@ class ViewController: UIViewController {
     let CONTENT_TYPE = "application/json"
     let HTTP_HEADER_FIELD = "Content-Type"
     var studentID : String = ""
-    var aPIDataArray = [APIData]()
+    var aPIDataArray : [APIData] = []
+    
+    
+    
     
     //titleView
     @IBOutlet weak var titleView: UIView!
@@ -50,6 +59,8 @@ class ViewController: UIViewController {
         if studentNumBox.text != "" {
             self.studentID = studentNumBox.text!
             self.performSegue(withIdentifier: "websiteSegue", sender: self)
+            
+            
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
                 //延遲一秒
                 self.numView.alpha = 1
@@ -70,8 +81,14 @@ class ViewController: UIViewController {
         //sNum = studentNum
         //主要是用來爬json的資料把
         var serialNum : String = "⍩"
-        
-        
+        /*for i in (1...500){
+            if item[i]["serialNum"] == studentNumBox.text {
+                serialNum = String(i)
+            }
+        }綠茶
+        */
+        getSheetDB()
+        //fetchItem()
         
         return serialNum
     }
@@ -85,6 +102,7 @@ class ViewController: UIViewController {
     }
     
     func getSheetDB(){
+        print("sheet BD")
         //let urlSheetDB = "https://docs.google.com/spreadsheets/d/1mo-a7TcJkJ7B-77jR5aBqLu1lBiY38RRHeOCG5chHCs/edit#gid=1754583349"
         let urlGAS = "https://script.google.com/macros/s/AKfycbxO7o3jJFms2ZOgItEuPGeOrW-KMMhIr_RZoRGs7tVYv1FlOtFE/exec"
         let apiUrl = urlGAS
@@ -96,13 +114,19 @@ class ViewController: UIViewController {
 
                         URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
                             if error == nil {
-                                if let data = data,
-                                   let aPIDataArray = try? JSONDecoder().decode([APIData].self, from: data) {
-                                    print(aPIDataArray,"nope")
+                                if let data = data,let aPIDataArray = try? JSONDecoder().decode([APIData].self, from: data) {
+                                    
                                     self.aPIDataArray = aPIDataArray
+                                    print(self.aPIDataArray,"nope")
                                     DispatchQueue.main.async {
                                         print("reload?")
                                     }
+                                    
+                                    //print(type(of: aPIDataArray))
+                                    
+                                    //let text = JSONDecoder.Input().base64EncodedString()
+                                    
+                                    //self.serialNumL.text = self.visit(data: text, userID: self.studentNumBox.text!)
                                 }
                             } else {
                                 print("====== getDataFromSheetDB error ======")
@@ -115,8 +139,9 @@ class ViewController: UIViewController {
                                 }
                             }
                         }.resume()
-            print(self.aPIDataArray)
-    }
+        }else{
+            print("NO")
+        }
         
     }
     
@@ -138,6 +163,9 @@ class ViewController: UIViewController {
         logoImage.center = view.center
         
         view.addSubview(logoImage)
+        
+        
+        
        
     }
     override func viewDidAppear(_ animated: Bool) {
