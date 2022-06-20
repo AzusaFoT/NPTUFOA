@@ -13,7 +13,7 @@ class ViewController: UIViewController {
         let resultCount: Int?
         let results: [APIData]
     }
-    var item: [APIData] = []
+    //var item: [APIData] = []
     
     struct APIData: Codable {
         var name: String?
@@ -21,9 +21,17 @@ class ViewController: UIViewController {
         var studentNum: String?
         var time: String?
         var serialNum: Int?
+        var mealsok : String?
+        var takeok : String?
+    }
+    
+    struct nData: Codable {
+        var studentNum: String?
+        var serialNum: Int?
         var maalsok : String?
         var takeok : String?
     }
+    
     var str1:String = ""
     
     let logoImage = UIImageView()
@@ -33,7 +41,7 @@ class ViewController: UIViewController {
     let HTTP_HEADER_FIELD = "Content-Type"
     var studentID : String = ""
     var aPIDataArray : [APIData] = []
-    
+    var sNO :String = "0"
     
     
     
@@ -45,6 +53,17 @@ class ViewController: UIViewController {
     //numView
     @IBOutlet weak var numView: UIView!
     @IBOutlet weak var serialNumL: UILabel!
+    @IBAction func renew(_ sender: Any) {
+        self.getSheetDB()
+        self.searchArrayData()
+        self.sTitle.text = "請稍候"
+        self.bTitle.text = "Loading......"
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 5) {
+            self.serialNumL.text = self.sNO
+            self.bTitle.text = "以下為取餐流水編號"
+            self.sTitle.text = self.studentID
+        }
+    }
     @IBAction func logoutButton(_ sender: UIButton) {
         numView.alpha = 0
         self.bTitle.text = "線上點餐整合服務"
@@ -59,14 +78,14 @@ class ViewController: UIViewController {
         if studentNumBox.text != "" {
             self.studentID = studentNumBox.text!
             self.performSegue(withIdentifier: "websiteSegue", sender: self)
-            
+            self.getSheetDB()
             
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
                 //延遲一秒
                 self.numView.alpha = 1
-                self.serialNumL.text = self.searchSerialNum(sNum: self.studentNumBox.text!)
-                
                 self.bTitle.text = "以下為取餐流水編號"
+                //self.serialNumL.text = self.searchArrayData()
+                self.serialNumL.text = "⍩"
                 self.sTitle.text = self.studentID
             }
             
@@ -77,21 +96,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func searchSerialNum(sNum: String) -> String {
-        //sNum = studentNum
-        //主要是用來爬json的資料把
-        var serialNum : String = "⍩"
-        /*for i in (1...500){
-            if item[i]["serialNum"] == studentNumBox.text {
-                serialNum = String(i)
-            }
-        }綠茶
-        */
-        getSheetDB()
-        //fetchItem()
-        
-        return serialNum
-    }
+    
     
     // 警告視窗
     func displayAlert(title: String,message: String){
@@ -100,11 +105,66 @@ class ViewController: UIViewController {
         alertController.addAction(alertAction)
         self.present(alertController,animated: true,completion: nil)
     }
+    func searchArrayData() {
+        var serialNumBack : String =  "⍩"
+        var flag :Int = 0
+        self.getSheetDB()
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 5) {
+        var array = self.aPIDataArray
+            
+        for i in 0...499{
+        
+            let studentNum : String = (array[i].studentNum)! as String
+            let serialNum :String = String(array[i].serialNum!)
+            let takeok : String = array[i].takeok! as String
+            
+            // testzone
+            //print(takeok)
+            //print(studentNum,1)
+            
+            // break
+            if (studentNum == ""){
+                break
+            }
+            // break
+            
+            if(studentNum == self.studentID){
+                if (takeok == "false")
+                {
+                    //有這筆資料要給一個flag
+                    flag = 1
+                    self.sNO = serialNum
+                    self.serialNumL.text = serialNum
+                    // testzone
+                    //print(self.sNO)
+                    //print(array[i])
+                }
+            }
+            
+        }
+        
+        if(flag == 0 && serialNumBack == "⍩"){
+            print("we have no DATA, plz check your studentID.")
+        }
+        else{
+            //U資料
+            //print(array[Int(serialNumBack)!-1])
+        }
+        
+            
+            
+        }
+       
+        
+        
+    }
+    
     
     func getSheetDB(){
         print("sheet BD")
         //let urlSheetDB = "https://docs.google.com/spreadsheets/d/1mo-a7TcJkJ7B-77jR5aBqLu1lBiY38RRHeOCG5chHCs/edit#gid=1754583349"
-        let urlGAS = "https://script.google.com/macros/s/AKfycbxO7o3jJFms2ZOgItEuPGeOrW-KMMhIr_RZoRGs7tVYv1FlOtFE/exec"
+        let urlGAS = "https://script.google.com/a/nptu.edu.tw/macros/s/AKfycbyZT0f_ksAC5O57eLaWIDTP_uIVVeT4k9GEY8PfoQ/exec"
         let apiUrl = urlGAS
         
         if let urlApi = URL(string: apiUrl){
@@ -117,16 +177,13 @@ class ViewController: UIViewController {
                                 if let data = data,let aPIDataArray = try? JSONDecoder().decode([APIData].self, from: data) {
                                     
                                     self.aPIDataArray = aPIDataArray
-                                    print(self.aPIDataArray,"nope")
+                                    //print(self.aPIDataArray)
+                                    //self.searchArrayData(array: self.aPIDataArray)
+                                    
+                                    
                                     DispatchQueue.main.async {
                                         print("reload?")
                                     }
-                                    
-                                    //print(type(of: aPIDataArray))
-                                    
-                                    //let text = JSONDecoder.Input().base64EncodedString()
-                                    
-                                    //self.serialNumL.text = self.visit(data: text, userID: self.studentNumBox.text!)
                                 }
                             } else {
                                 print("====== getDataFromSheetDB error ======")
