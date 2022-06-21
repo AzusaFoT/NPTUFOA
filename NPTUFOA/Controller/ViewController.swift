@@ -41,7 +41,7 @@ class ViewController: UIViewController {
     let HTTP_HEADER_FIELD = "Content-Type"
     var studentID : String = ""
     var aPIDataArray : [APIData] = []
-    var sNO :String = "0"
+    var sNO :String = "⍩"
     
     
     
